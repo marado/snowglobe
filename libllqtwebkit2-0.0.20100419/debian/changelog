@@ -1,0 +1,43 @@
+libllqtwebkit2 (0.0.20100419-2.1) unstable; urgency=low
+
+  * added missing dependency       
+
+ -- Marcos Marado <mindboosternoori@gmail.com>  Mon, 12 Dec 2011 23:04:01 +0100
+
+libllqtwebkit2 (0.0.20100419-2) unstable; urgency=low
+
+  * Version bump due to failed upload for i386
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Wed, 19 May 2010 15:26:53 +0100
+
+libllqtwebkit2 (0.0.20100419-1) unstable; urgency=low
+
+  * Latest tip update for SG2.1
+  * Bump soname to .2 so we do not collide with earlier webkits
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Wed, 12 May 2010 09:47:41 +0100
+
+libllqtwebkit (0.0.20100328-1) unstable; urgency=low
+
+  * Version 2.0 of webkit
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Sun, 28 Mar 2010 23:33:31 +0100
+
+libllqtwebkit (0.0.20091231-1) unstable; urgency=low
+
+  * Inital import and packaging of 2.0 branch from hg
+  
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Fri, 31 Dec 2009 18:47:43 +0000
+
+libllmozlib2-qt (0.0.20090317-1) unstable; urgency=low
+
+  * Update to latest upstream release
+    - Add -g3 to build options
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Tue, 17 Mar 2009 21:47:41 +0000
+
+libllmozlib2-qt (0.0.20090115-1) unstable; urgency=low
+
+  * Inital import and packaging
+  
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Fri, 04 Jan 2008 12:52:43 +0000

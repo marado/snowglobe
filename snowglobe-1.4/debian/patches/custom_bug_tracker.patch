@@ -1,0 +1,28 @@
+diff --git a/1.3/indra/newview/skins/default/xui/en-us/menu_viewer.xml b/1.3/indra/newview/skins/default/xui/en-us/menu_viewer.xml
+index a50c4ce..2d6d803 100644
+--- a/1.3/indra/newview/skins/default/xui/en-us/menu_viewer.xml
++++ b/1.3/indra/newview/skins/default/xui/en-us/menu_viewer.xml
+@@ -789,16 +789,21 @@
+ 		<menu bottom="-554" create_jump_keys="true" drop_shadow="true" enabled="true"
+ 		     height="109" label="Bug Reporting" left="0" mouse_opaque="false"
+ 		     name="Bug Reporting" opaque="true" tear_off="true" width="118">
+-			<menu_item_call bottom="-94" enabled="true" height="19" label="Public Issue Tracker..."
++			<menu_item_call bottom="-94" enabled="true" height="19" label="Linden Labs Public Issue Tracker..."
+ 			     left="0" mouse_opaque="true" name="Public Issue Tracker..." width="166">
+ 				<on_click function="PromptShowURL" name="PublicIssueTracker_url"
+ 				     userdata="WebLaunchPublicIssue,http://jira.secondlife.com" />
+ 			</menu_item_call>
+-			<menu_item_call bottom="-94" enabled="true" height="19" label="Public Issue Tracker Help..."
++			<menu_item_call bottom="-94" enabled="true" height="19" label="Linden Labs Public Issue Tracker Help..."
+ 			     left="0" mouse_opaque="true" name="Publc Issue Tracker Help..." width="166">
+ 				<on_click function="PromptShowURL" name="PublicIssueTrackerHelp_url"
+ 				     userdata="WebLaunchPublicIssueHelp,http://wiki.secondlife.com/wiki/Issue_tracker" />
+ 			</menu_item_call>
++			<menu_item_call bottom="-94" enabled="true" height="19" label="omvviewer project Issue Tracker..."
++			     left="0" mouse_opaque="true" name="OMV Issue Tracker..." width="166">
++				<on_click function="PromptShowURL" name="PublicIssueTracker_url"
++				     userdata="WebLaunchPublicIssue,http://jira.byteme.org.uk:8080" />
++			</menu_item_call>
+ 			<menu_item_separator bottom="-411" enabled="true" height="8" label="-----------" left="0"
+ 			     mouse_opaque="true" name="separator7" width="250" />
+ 			<menu_item_call bottom="-94" enabled="true" height="19" label="Bug Reporting 101..." left="0"

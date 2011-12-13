@@ -1,0 +1,77 @@
+diff --git a/1.3/indra/llcharacter/llkeyframemotion.cpp b/1.3/indra/llcharacter/llkeyframemotion.cpp
+index 51a3cf7..38c6d44 100644
+--- a/1.3/indra/llcharacter/llkeyframemotion.cpp
++++ b/1.3/indra/llcharacter/llkeyframemotion.cpp
+@@ -1360,8 +1360,8 @@ BOOL LLKeyframeMotion::deserialize(LLDataPacker& dp)
+ 		}
+ 		else
+ 		{
+-			llwarns << "joint not found: " << joint_name << llendl;
+-			//return FALSE;
++			llwarns << "joint not found: " << llendl;
++			return FALSE;
+ 		}
+ 
+ 		joint_motion->mJointName = joint_name;
+@@ -2082,12 +2082,18 @@ void LLKeyframeMotion::onLoadComplete(LLVFS *vfs,
+ 			}
+ 			LLVFile file(vfs, asset_uuid, type, LLVFile::READ);
+ 			S32 size = file.getSize();
+-			
++
++			if(size==0)
++			{
++				llwarns << "Failed to decode asset for animation " << motionp->getName() << ":" << motionp->getID() << llendl;
++				return;
++			}
++
+ 			U8* buffer = new U8[size];
+ 			file.read((U8*)buffer, size);	/*Flawfinder: ignore*/
+ 			
+ 			lldebugs << "Loading keyframe data for: " << motionp->getName() << ":" << motionp->getID() << " (" << size << " bytes)" << llendl;
+-			
++
+ 			LLDataPackerBinaryBuffer dp(buffer, size);
+ 			if (motionp->deserialize(dp))
+ 			{
+diff --git a/1.3/indra/llmessage/lldatapacker.cpp b/1.3/indra/llmessage/lldatapacker.cpp
+index 1cdb475..ba79279 100644
+--- a/1.3/indra/llmessage/lldatapacker.cpp
++++ b/1.3/indra/llmessage/lldatapacker.cpp
+@@ -186,18 +186,31 @@ BOOL LLDataPackerBinaryBuffer::packString(const std::string& value, const char *
+ 	return success;
+ }
+ 
+-
+ BOOL LLDataPackerBinaryBuffer::unpackString(std::string& value, const char *name)
+ {
+-	BOOL success = TRUE;
+-	S32 length = (S32)strlen((char *)mCurBufferp) + 1; /*Flawfinder: ignore*/
++	//Sanitise the string before attemping ANY buffer operations
++	U8 * pos;
++	S32 length=0;
++	for(pos=mCurBufferp;pos<(mBufferp+mBufferSize);pos++)
++	{
++		length++;
++		if((*pos)==0)
++			break;
++	}
+ 
+-	success &= verifyLength(length, name);
++	if(length>=mBufferSize)
++	{
++		llwarns << "Unpack string failed, null termination not found"<<llendl;
++		return false;
++	}
++
++	if(!verifyLength(length, name))
++		return false;
+ 
+ 	value = std::string((char*)mCurBufferp); // We already assume NULL termination calling strlen()
+ 	
+ 	mCurBufferp += length;
+-	return success;
++	return true;
+ }
+ 
+ BOOL LLDataPackerBinaryBuffer::packBinaryData(const U8 *value, S32 size, const char *name)

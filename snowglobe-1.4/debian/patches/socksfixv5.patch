@@ -1,0 +1,320 @@
+Index: indra/llmessage/llcurl.cpp
+===================================================================
+--- indra/llmessage/llcurl.cpp	(revision 3318)
++++ indra/llmessage/llcurl.cpp	(working copy)
+@@ -282,6 +282,8 @@
+ 		if (LLSocks::getInstance()->getHttpProxyType() == LLPROXY_SOCKS)
+ 		{
+ 			curl_easy_setopt(easy->mCurlEasyHandle, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
++			if(LLSocks::getInstance()->getSelectedAuthMethod()==METHOD_PASSWORD)
++				curl_easy_setopt(easy->mCurlEasyHandle, CURLOPT_PROXYUSERPWD,LLSocks::getInstance()->getProxyUserPwd().c_str());
+ 		}
+ 		else
+ 		{
+@@ -471,6 +473,8 @@
+ 		if (LLSocks::getInstance()->getHttpProxyType() == LLPROXY_SOCKS)
+ 		{
+ 			setopt(CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
++			if(LLSocks::getInstance()->getSelectedAuthMethod()==METHOD_PASSWORD)
++				setoptString(CURLOPT_PROXYUSERPWD,LLSocks::getInstance()->getProxyUserPwd());
+ 		}
+ 		else
+ 		{
+Index: indra/llmessage/llsocks5.cpp
+===================================================================
+--- indra/llmessage/llsocks5.cpp	(revision 3318)
++++ indra/llmessage/llsocks5.cpp	(working copy)
+@@ -124,8 +124,8 @@
+ 	connect_request.flag    = FIELD_RESERVED;
+ 	connect_request.atype   = ADDRESS_IPV4;
+ 	connect_request.address = 0; // 0.0.0.0 We are not fussy about address
+-							     //UDP is promiscious receive for our protocol
+-	connect_request.port    = htons(message_port); // Port must be in network byte order
++							     // UDP is promiscious receive for our protocol
++	connect_request.port    = 0; // Port must be 0 if you ever want to connect via NAT and your router does port rewrite for you
+ 
+ 	result = tcp_handshake(hProxyControlChannel, (char*)&connect_request, sizeof(socks_command_request_t), (char*)&connect_reply, sizeof(socks_command_response_t));
+ 	if (result != 0)
+Index: indra/llmessage/llsocks5.h
+===================================================================
+--- indra/llmessage/llsocks5.h	(revision 3318)
++++ indra/llmessage/llsocks5.h	(working copy)
+@@ -109,10 +109,6 @@
+ 	U16						port;
+ };
+ 
+-#define METHOD_NOAUTH   0x00 // Client supports no auth
+-#define METHOD_GSSAPI   0x01 // Client supports GSSAPI (Not currently supported)
+-#define METHOD_PASSWORD 0x02 // Client supports username/password
+-
+ #define AUTH_NOT_ACCEPTABLE 0xFF // reply if prefered methods are not avaiable
+ #define AUTH_SUCCESS        0x00 // reply if authentication successfull
+ 
+@@ -154,6 +150,14 @@
+ 	LLPROXY_HTTP=1
+ };
+ 
++// Auth types
++enum LLSocks5AuthType
++{
++	METHOD_NOAUTH=0x00,		// Client supports no auth
++	METHOD_GSSAPI=0x01, 	// Client supports GSSAPI (Not currently supported)
++	METHOD_PASSWORD=0x02 	// Client supports username/password
++};
++
+ class LLSocks: public LLSingleton<LLSocks>
+ {
+ public:
+@@ -171,6 +175,9 @@
+ 	
+ 	// Set up to use No Auth when connecting to the socks proxy;
+ 	void setAuthNone();
++
++	// get the currently selected auth method
++	LLSocks5AuthType getSelectedAuthMethod() { return mAuthMethodSelected; };
+ 	
+ 	// static check for enabled status for UDP packets
+ 	static bool isEnabled(){return sUdpProxyEnabled;};
+@@ -200,6 +207,9 @@
+ 	// report if the current settings are applied or dirty pending a startProxy
+ 	bool needsUpdate() { return mNeedUpdate; };
+ 
++	//Get the username password in a curl compatible format
++	std::string getProxyUserPwd(){ return (mSocksUsername+":"+mSocksPassword);};
++
+ private:
+ 
+ 	// Open a communication channel to the socks5 proxy proxy, at port messagePort
+@@ -227,7 +237,7 @@
+ 	LLHost mHTTPProxy;
+ 
+ 	// socks 5 auth method selected
+-	U8 mAuthMethodSelected;
++	LLSocks5AuthType mAuthMethodSelected;
+ 
+ 	// socks 5 username
+ 	std::string mSocksUsername;
+Index: indra/newview/app_settings/settings.xml
+===================================================================
+--- indra/newview/app_settings/settings.xml	(revision 3318)
++++ indra/newview/app_settings/settings.xml	(working copy)
+@@ -790,7 +790,7 @@
+       <key>Comment</key>
+       <string>Socks 5 Username</string>
+       <key>Persist</key>
+-      <integer>0</integer>
++      <integer>1</integer>
+       <key>Type</key>
+       <string>String</string>
+       <key>Value</key>
+@@ -801,7 +801,7 @@
+       <key>Comment</key>
+       <string>Socks 5 Password</string>
+       <key>Persist</key>
+-      <integer>0</integer>
++      <integer>1</integer>
+       <key>Type</key>
+       <string>String</string>
+       <key>Value</key>
+@@ -812,7 +812,7 @@
+       <key>Comment</key>
+       <string>Selected Auth mechanism for Socks5</string>
+       <key>Persist</key>
+-      <integer>0</integer>
++      <integer>1</integer>
+       <key>Type</key>
+       <string>String</string>
+       <key>Value</key>
+Index: indra/newview/llpanelnetwork.cpp
+===================================================================
+--- indra/newview/llpanelnetwork.cpp	(revision 3318)
++++ indra/newview/llpanelnetwork.cpp	(working copy)
+@@ -74,7 +74,6 @@
+ 
+ 	//Socks 5 proxy settings, saved data
+ 	childSetValue("socks5_proxy_enabled",   gSavedSettings.getBOOL("Socks5ProxyEnabled"));
+-	//childSetValue("socks5_http_enabled",   gSavedSettings.getBOOL("Socks5HttpEnabled"));
+ 	childSetValue("socks5_http_proxy_type", gSavedSettings.getString("Socks5HttpProxyType"));
+ 
+ 	childSetValue("socks5_proxy_host",     gSavedSettings.getString("Socks5ProxyHost"));
+@@ -109,8 +108,7 @@
+ 	gSavedSettings.setBOOL("ConnectionPortEnabled", childGetValue("connection_port_enabled"));
+ 	gSavedSettings.setU32("ConnectionPort", childGetValue("connection_port").asInteger());
+ 
+-	gSavedSettings.setBOOL("Socks5ProxyEnabled", childGetValue("socks5_proxy_enabled"));
+-	//gSavedSettings.setBOOL("Socks5HttpEnabled", childGetValue("socks5_http_enabled"));		
++	gSavedSettings.setBOOL("Socks5ProxyEnabled", childGetValue("socks5_proxy_enabled"));		
+ 	gSavedSettings.setString("Socks5HttpProxyType", childGetValue("socks5_http_proxy_type"));
+ 	gSavedSettings.setString("Socks5ProxyHost", childGetValue("socks5_proxy_host"));
+ 	gSavedSettings.setU32("Socks5ProxyPort", childGetValue("socks5_proxy_port").asInteger());
+@@ -234,7 +232,6 @@
+ 	// Manage all the enable/disable of the socks5 options from this single function
+ 	// to avoid code duplication
+ 
+-
+ 	// Update all socks labels and controls except auth specific ones
+ 	self->childSetEnabled("socks5_proxy_port",  enabled);
+ 	self->childSetEnabled("socks5_proxy_host",  enabled);
+Index: indra/newview/llstartup.cpp
+===================================================================
+--- indra/newview/llstartup.cpp	(revision 3318)
++++ indra/newview/llstartup.cpp	(working copy)
+@@ -4374,31 +4374,23 @@
+ 
+ bool LLStartUp::handleSocksProxy(bool reportOK)
+ {
+-	bool use_http_proxy = gSavedSettings.getBOOL("BrowserProxyEnabled");
+-	if (use_http_proxy)
+-	{
+-		std::string httpProxyType = gSavedSettings.getString("Socks5HttpProxyType");
++	std::string httpProxyType = gSavedSettings.getString("Socks5HttpProxyType");
+ 
+-		// Determine the http proxy type (if any)
+-		if (httpProxyType.compare("Web") == 0)
+-		{
+-			LLHost httpHost;
+-			httpHost.setHostByName(gSavedSettings.getString("BrowserProxyAddress"));
+-			httpHost.setPort(gSavedSettings.getS32("BrowserProxyPort"));
+-			LLSocks::getInstance()->EnableHttpProxy(httpHost,LLPROXY_HTTP);
+-		}
+-		else if (httpProxyType.compare("Socks") == 0)
+-		{
+-			LLHost httpHost;
+-			httpHost.setHostByName(gSavedSettings.getString("Socks5ProxyHost"));
+-			httpHost.setPort(gSavedSettings.getS32("Socks5ProxyPort"));
+-			LLSocks::getInstance()->EnableHttpProxy(httpHost,LLPROXY_SOCKS);
+-		}
+-		else
+-		{
+-			LLSocks::getInstance()->DisableHttpProxy();
+-		}
++	// Determine the http proxy type (if any)
++	if ((httpProxyType.compare("Web") == 0) && gSavedSettings.getBOOL("BrowserProxyEnabled"))
++	{
++		LLHost httpHost;
++		httpHost.setHostByName(gSavedSettings.getString("BrowserProxyAddress"));
++		httpHost.setPort(gSavedSettings.getS32("BrowserProxyPort"));
++		LLSocks::getInstance()->EnableHttpProxy(httpHost,LLPROXY_HTTP);
+ 	}
++	else if ((httpProxyType.compare("Socks") == 0) && gSavedSettings.getBOOL("Socks5ProxyEnabled"))
++	{
++		LLHost httpHost;
++		httpHost.setHostByName(gSavedSettings.getString("Socks5ProxyHost"));
++		httpHost.setPort(gSavedSettings.getU32("Socks5ProxyPort"));
++		LLSocks::getInstance()->EnableHttpProxy(httpHost,LLPROXY_SOCKS);
++	}
+ 	else
+ 	{
+ 		LLSocks::getInstance()->DisableHttpProxy();
+Index: indra/newview/llxmlrpctransaction.cpp
+===================================================================
+--- indra/newview/llxmlrpctransaction.cpp	(revision 3318)
++++ indra/newview/llxmlrpctransaction.cpp	(working copy)
+@@ -234,6 +234,8 @@
+ 		if (LLSocks::getInstance()->getHttpProxyType() == LLPROXY_SOCKS)
+ 		{
+ 			mCurlRequest->setopt(CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
++			if(LLSocks::getInstance()->getSelectedAuthMethod()==METHOD_PASSWORD)
++				mCurlRequest->setoptString(CURLOPT_PROXYUSERPWD,LLSocks::getInstance()->getProxyUserPwd());
+ 		}
+ 		else
+ 		{
+Index: indra/newview/skins/default/xui/en-us/panel_preferences_network.xml
+===================================================================
+--- indra/newview/skins/default/xui/en-us/panel_preferences_network.xml	(revision 3318)
++++ indra/newview/skins/default/xui/en-us/panel_preferences_network.xml	(working copy)
+@@ -71,7 +71,6 @@
+ 	     increment="1" initial_val="13000" label="Port Number:" label_width="75"
+ 	     left_delta="20" max_val="13050" min_val="13000" mouse_opaque="true"
+ 	     name="connection_port" width="150" />
+-
+ 	<text type="string" length="1" bg_visible="false" border_drop_shadow_visible="false" border_visible="false"
+ 	     bottom_delta="-24" drop_shadow_visible="true" enabled="true"
+ 	     follows="left|top" font="SansSerifSmall" h_pad="0" halign="left"
+@@ -79,28 +78,25 @@
+ 	     v_pad="0" width="128">
+ 		Http Proxy:
+ 	</text>
+-
+-  <radio_group bottom_delta="-8" draw_border="false" follows="left|top" height="20" left="12"
++	<radio_group bottom_delta="-8" draw_border="false" follows="left|top" height="20" left="12"
+ 	     name="socks5_http_proxy_type" width="380" >
+-    <radio_item height="20" bottom="0" left="100" name="None" width="50"
+-		  tool_tip="No Http Proxy">
+-      None
+-    </radio_item>
+-	<radio_item height="20" bottom="0" left="170" name="Socks" width="50"
+-		  tool_tip="Use Socks for Http Proxy">
+-      Socks
+-    </radio_item>
+-    <radio_item height="20" bottom="0" left="250" name="Web" width="50"
+-		  tool_tip="Use web proxy for Http Proxy">
+-      Web
+-    </radio_item>
+-  </radio_group>
+-
++	     <radio_item height="20" bottom="0" left="100" name="None" width="50"
++	         tool_tip="No Http Proxy">
++		None
++	     </radio_item>
++	     <radio_item height="20" bottom="0" left="170" name="Socks" width="50"
++	         tool_tip="Use Socks for Http Proxy">
++		Socks
++	     </radio_item>
++	     <radio_item height="20" bottom="0" left="250" name="Web" width="50"
++	         tool_tip="Use web proxy for Http Proxy">
++		Web
++	     </radio_item>
++	</radio_group>
+ 	<check_box bottom_delta="-24" enabled="true"
+ 	     follows="left|top" font="SansSerifSmall" height="16" initial_value="false"
+ 	     label="Enable SOCKS 5 Proxy" left="6" mouse_opaque="true"
+ 	     name="socks5_proxy_enabled" radio_style="false" width="256" />
+-
+ 	<text type="string" length="1" bg_visible="false" border_drop_shadow_visible="false" border_visible="false"
+ 	     bottom_delta="-26" drop_shadow_visible="true" enabled="true"
+ 	     follows="left|top" font="SansSerifSmall" h_pad="0" halign="left"
+@@ -112,13 +108,11 @@
+ 	     height="20" left="90" name="socks5_proxy_host"
+ 	     tool_tip="The name or IP address of the SOCKS5 proxy you would like to use"
+ 	     width="200" />
+-
+ 	<spinner bottom_delta="-30" decimal_digits="0"
+ 	     enabled="true" follows="left|top" height="16" increment="1"
+ 	     initial_val="80" label="Port Number:" label_width="75" left="12"
+ 	     max_val="12000" min_val="10" mouse_opaque="true" name="socks5_proxy_port"
+ 	     width="140" />
+-
+ 	<text type="string" length="1" bg_visible="false" border_drop_shadow_visible="false" border_visible="false"
+ 	     bottom_delta="-20" drop_shadow_visible="true" enabled="true"
+ 	     follows="left|top" font="SansSerifSmall" h_pad="0" halign="left"
+@@ -126,19 +120,17 @@
+ 	     v_pad="0" width="128">
+ 		Socks5 Authentication:
+ 	</text>
+-
+- <radio_group bottom_delta="-6" draw_border="false" follows="left|top" height="20" left="12"
++	<radio_group bottom_delta="-6" draw_border="false" follows="left|top" height="20" left="12"
+ 	     name="socks5_auth" width="420">
+-    <radio_item bottom_delta="0" height="20" left_delta="80" name="None" width="50"
+-		  tool_tip="No authentication">
+-      None
+-    </radio_item>
+-    <radio_item bottom_delta="0" height="20" left_delta="50" name="UserPass" width="50"
+-		  tool_tip="Username / Password authentication">
+-      Username/Password
+-    </radio_item>
+-  </radio_group>
+-
++	     <radio_item bottom="0" height="20" left_delta="80" name="None" width="50"
++	         tool_tip="No authentication">
++		None
++	     </radio_item>
++	     <radio_item bottom="0" height="20" left_delta="50" name="UserPass" width="50"
++	         tool_tip="Username / Password authentication">
++		Username/Password
++	     </radio_item>
++	</radio_group>
+ 	<text type="string" length="1" bg_visible="false" border_drop_shadow_visible="false" border_visible="false"
+ 	     bottom_delta="-22" drop_shadow_visible="true" enabled="true"
+ 	     follows="left|top" font="SansSerifSmall" h_pad="0" halign="left"

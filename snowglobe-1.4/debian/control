@@ -1,0 +1,33 @@
+Source: snowglobe
+Section: games
+Priority: extra
+Maintainer: Robin Cornelius <robin.cornelius@gmail.com>
+Uploaders: Robin Cornelius <robin.cornelius@gmail.com>
+Build-Depends: debhelper (>= 5), quilt (>= 0.40), cmake (>= 2.6.2), libcairo2-dev, libglib2.0-dev, libgtk2.0-dev, libsdl1.2-dev, libvorbis-dev, libopenjpeg-dev, libjpeg62-dev, libpng12-dev, flex, bison, libssl-dev, libexpat1-dev, libaprutil1-dev, libapr1-dev, zlib1g-dev, libxmlrpc-epi-dev, libgl1-mesa-dev ( >= 7 ) | libgl-dev, libboost-dev, libboost-regex-dev,libboost-signals-dev ,libboost-program-options-dev, libgstreamer0.10-dev, libgstreamer-plugins-base0.10-dev, libc-ares-dev , libllqtwebkit-dev, libopenal-dev, libalut-dev, libapr1-dev, python, libcurl4-cares-dev, libdbus-glib-1-dev, libndofdev-dev, libndofdev-dev, libtut-dev, libjsoncpp-dev, libdb++-dev
+Standards-Version: 3.8.0
+XS-Vcs-Git: http://git.byteme.org.uk/home/git/snowglobe.git
+
+Package: snowglobe
+Architecture: i386 amd64
+Depends: ${misc:Depends}, ${shlibs:Depends}, snowglobe-data  (= ${source:Version}), ttf-liberation
+Recommends: libgstreamer0.10-0, libgstreamer-plugins-base0.10-0, gstreamer0.10-plugins-bad, gstreamer0.10-plugins-ugly, gstreamer0.10-plugins-good, gstreamer0.10-plugins-ffmpeg, gstreamer0.10-pitfdll, w32codecs 
+Description: Open Metaverse Viewer
+ A client for conecting to 3D virtual worlds such as SecondLife(tm)
+ or servers operating the OpenSim package. This client is based on
+ the offical version from Linden Labs, with the addition of patches
+ to enable cleaner integration with Debian and stability and bug fixes
+
+Package: snowglobe-dbg
+Architecture: i386 amd64
+Depends: ${misc:Depends}, snowglobe (= ${binary:Version})
+Description: Debug symbols for snowglobe
+ This package contains the debug symbols for the snowglobe viewer and should
+ be installed to enabled debugging of the application
+ 
+Package: snowglobe-data
+Architecture: all
+Recommends: ${misc:Depends}, snowglobe
+Replaces: slviewer-data
+Description: Datafiles for Open Metaverse viewer
+ This package contains the static datafiles needed by a snowglobe client to
+ connect to a grid service such as Secondlife(tm)

@@ -1,0 +1,26 @@
+Source: libllqtwebkit2
+Priority: extra
+Maintainer: Robin Cornelius <robin.cornelius@gmail.com>
+Build-Depends: debhelper (>= 5), libqt4-dev, libqt4-opengl-dev, libqt4-webkit, qt4-qmake, libqtwebkit-dev
+Standards-Version: 3.8.4
+Section: libs
+Homepage: http://www.ubrowser.com/llmozlib.php
+
+Package: libllqtwebkit2-dev
+Section: libdevel
+Architecture: any
+Conflicts: libllqtwebkit-dev
+Depends: libllqtwebkit2 (= ${binary:Version}), ${misc:Depends}
+Description: Development headers for llqtwebkit
+ Development headers for llqtwebkit an offscreen webpage rendering library
+
+Package: libllqtwebkit2
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: snowglobe (<= 1.3)
+Description: An offscreen web page rendering library
+ A library that allows webpages to be rendered in a memory buffer for use in
+ applications that do not want to render directly to the screen, example usage
+ with OpenGL applications where the memory buffer can then be applied as a 3D
+ GL texture.

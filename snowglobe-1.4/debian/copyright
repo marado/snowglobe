@@ -1,0 +1,187 @@
+This package was debianized by Paul Hampson <Paul.Hampson@Pobox.com> on
+Sun,  8 Apr 2007 00:14:35 +1000.
+Additional rebasing and updaing by Robin Cornelius 
+<robin.cornelius@gmail.com> on Sat 10 Nov 2007 13:48 +0000
+
+It was downloaded from http://wiki.secondlife.com/wiki/Source_archive
+
+Upstream Author: Linden Research, Inc <licensing@lindenlab.com>
+
+Copyright: (C) 2007 Linden Research, Inc.
+
+License:
+
+   This package is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; version 2 of the License.
+
+   This package is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this package; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+On Debian systems, the complete text of the GNU General
+Public License can be found in `/usr/share/common-licenses/GPL'.
+
+As a special exception to the terms and conditions of version 2.0 of the GPL:
+
+You are free to distribute a work based on the Program that is formed entirely
+from the Viewer Software (and any modifications thereof) and one or more works
+that are independent and separate works not derived from the Viewer Software,
+and are licensed under one or more of the licenses listed below in section 1
+(each, a "FLOSS Work") , as long as:
+
+   1. You obey the GPL in all respects for the Viewer Software and any work
+      based on the Program, except for the FLOSS Works, for which you must comply
+      with B below,
+
+   2. all FLOSS Works,
+
+		 1. are distributed subject to one of the FLOSS licenses listed below,
+            and
+
+		 2. the object code or executable form of the FLOSS Works are
+            accompanied by the complete corresponding machine-readable source code for
+            those FLOSS Works on the same medium and under the same FLOSS license as the
+            corresponding object code or executable forms thereof, and 
+
+   3. any works that are aggregated with the Viewer Software or a work based on
+      the Program on a volume of a storage or distribution medium in accordance with
+      the GPL, and are not licensed under the FLOSS licenses listed below, are
+      independent and separate works in themselves which are not derivatives of
+      either the Viewer Software, a work based on the Program or a FLOSS Work. 
+
+If the above conditions are not met, then the Viewer Software may only be
+copied, modified, distributed or used under the terms and conditions of the GPL
+or another valid licensing option from Linden Lab.
+
+1. FLOSS License List
+License name Version(s)/Copyright Date
+Academic Free License 2.0
+Apache Software License 1.0/1.1/2.0
+Apple Public Source License 2.0
+Artistic license From Perl 5.8.0
+BSD license "July 22 1999"
+Common Development and Distribution License (CDDL) 1.0
+Common Public License 1.0
+GNU Library or "Lesser" General Public License (LGPL) 2.0/2.1
+Jabber Open Source License 1.0
+MIT License (As listed in file MIT-License.txt) -
+Mozilla Public License (MPL) 1.0/1.1
+Open Software License 2.0
+OpenSSL license (with original SSLeay license) "2003" ("1998")
+PHP License 3.0
+Python license (CNRI Python License) -
+Python Software Foundation License 2.1.1
+Sleepycat License "1999"
+W3C License "2001"
+X11 License "2001"
+Zlib/libpng License -
+Zope Public License 2.0
+
+Due to the many variants of some of the above licenses, we require that any
+variant of the above licenses be identical in substance to the form approved by
+the Open Source Initiative and follow the 2003 version of the Free Software
+Foundation's Free Software Definition
+(http://www.gnu.org/philosophy/free-sw.html) or version 1.9 of the Open Source
+Definition by the Open Source Initiative
+(http://www.opensource.org/docs/definition.php).
+
+2. Definitions
+
+Terms used, but not defined, herein shall have the meaning provided in the GPL.
+
+3. Applicability
+
+This FLOSS Exception applies to all Viewer Software files that contain a notice
+placed by Linden Lab saying that the Viewer Software may be distributed under
+the terms of this FLOSS Exception. If you create or distribute a work which is
+a work based on the Program for the Viewer Software and any other work licensed
+under the GPL, then this FLOSS Exception is not available for that work; thus,
+you must remove the FLOSS Exception notice from that work and comply with the
+GPL in all respects, including by retaining all GPL notices. You may choose to
+redistribute a copy of the Viewer Software exclusively under the terms of the
+GPL by removing the FLOSS Exception notice from that copy of the Viewer
+Software, provided that the copy has never been modified by you or any third
+party. 
+
+==
+
+The Debian packaging is (C) 2007, Paul Hampson <Paul.Hampson@Pobox.com> and
+is licensed under the above terms.
+
+==
+
+The following files don't have the above header.
+
+This'll tell you if there's any other files that're missing the above header
+for d in `debian/rules headeraudit |grep -v claims`; do grep -q $d debian/copyright || echo $d is not in debian/copyright; done
+
+This'll tell you _why_ they don't have the above header
+for d in `debian/rules headeraudit |grep -v claims`; do grep $d debian/copyright; done
+
+==
+
+indra/llcommon/llbase32.cpp: Copyright (c) 2006 Christian Biere <christianbiere@gmx.de>
+
+License:
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+1. Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+3. Neither the name of the authors nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHORS AND CONTRIBUTORS ``AS IS'' AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+==
+
+The below don't have any license header at all
+
+indra/llmessage/llcurl.h: Copyright 2006 __MyCompanyName__. All rights reserved.
+indra/llmessage/llcurl.cpp: Copyright 2006 __MyCompanyName__. All rights reserved.
+
+indra/newview/llassetuploadresponders.h: Copyright 2006, Linden Research, Inc.
+indra/newview/llassetuploadresponders.cpp: Copyright 2006, Linden Research, Inc.
+
+indra/llmessage/llmessagereader.h: no copyright notice
+indra/llmessage/llmessagetemplate.h: no copyright notice
+indra/llmessage/llsdmessagereader.h: no copyright notice
+indra/llmessage/lltemplatemessagereader.h: no copyright notice
+indra/llmessage/lltemplatemessagebuilder.h: no copyright notice
+indra/llmessage/llmessagebuilder.h: no copyright notice
+indra/llmessage/llmsgvariabletype.h: no copyright notice
+indra/llmessage/llsdmessagebuilder.h: no copyright notice
+indra/llmessage/llmessagereader.cpp: no copyright notice
+indra/llmessage/llsdmessagereader.cpp: no copyright notice
+indra/llmessage/lltemplatemessagereader.cpp: no copyright notice
+indra/llmessage/llmessagetemplate.cpp: no copyright notice
+indra/llmessage/llsdmessagebuilder.cpp: no copyright notice
+indra/llmessage/lltemplatemessagebuilder.cpp: no copyright notice
+indra/llrender/llvertexbuffer.h: no copyright notice
+indra/llrender/llvertexbuffer.cpp: no copyright notice
+indra/newview/llfloaterinspect.cpp: no copyright notice
+indra/test/llsdtraits.h: no copyright notice
+
+indra/newview/res/resource.h: generated file

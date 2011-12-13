@@ -1,0 +1,34 @@
+Template: shared/present-linden_labs_tpv_v1.0
+Type: note
+Description: Second Life, Third Party Viewers Policy
+ This Policy governs access to Second Life and Linden Lab's technical platform that supports Second Life by any Third-Party Viewer or any third-party software client that logs into our  servers. This includes software for viewing Second Life, any chat clients, utilities, bots, and proxies as well as applications that may not be listed in Linden Labs Viewer Directory.
+   
+ Snowglobe unoffical Debian build (omvvviewer project)
+    
+ As this software is not an offical build - “This software is not provided or supported by Linden Lab, the makers of Second Life.”
+  
+ In particular this build of the Snowglobe viewer is made by the openmetaverse project, it is entirly based of the offical snowglobe source code releases with minor patches to enable it to work nativly with system installed libraries and to install to a users system in LSB standard locations.
+   
+ PRIVACY POLICY
+  
+ The omvviewer project has the following privacy policy :-
+  
+ The omvviewer project collects no data or personal information from any of its users. User names and passwords are only sent to the login server on the grid you are connecting too. For example if you are using the default install of our packages, that is the Linden Labs servers, no data about your use of the viewer is recorded by us or sent to us.
+  
+ CUSTOMER SUPPORT
+  
+ The omvviewer project does not provide “customer support” in the same way as a commercial application might, but I do try to maintain a high quality distribution so I welcome all feedback of problems. Ideally any issues should be tested to see if the offical Linden Labs builds of Snowglobe have they same problems, and if so the issues reported to the Linden Labs bug tracker. If you do find issues that are unique to my builds or are related to the packaging or use of native system libraries instead of fixed versions in the offical builds then please report the issues to be, you are welcome to either use on of the contact methods on the contact page or use my JIRA issue tracker at  http://jira.byteme.org.uk:8080/
+ 
+ All users and Developers of Third-Party Viewers must comply with policy listed at http://secondlife.com/corporate/tpv.php, in addition to the Second Life Terms of Service. If you do not comply, you are not allowed to use Second Life through a Third-Party Viewer, and in severe cases Linden Lab may terminate your access to Second Life entirely.
+  
+ Please also see :-
+  
+ http://wiki.secondlife.com/w/index.php?title=Linden_Lab_Official:Third_Party_Policy_and_Viewer_Directory_FAQ&oldid=774342 
+   
+ for a FAQ and better explanination of the TPV policy and how it effects you
+
+Template: shared/accepted-linden_labs_tpv_v1.0
+Type: boolean
+Description: Second Life, Third Party Viewers Policy
+ .
+

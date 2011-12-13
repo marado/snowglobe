@@ -1,0 +1,19 @@
+use_sys_location_for_shared_plugin_files.patch -p2
+force_main_grid.patch -p2
+debianfonts.patch -p2
+universaljson.patch -p2
+#dependency.patch -p2
+AnimationJointString.patch -p2
+default_skin_about.patch -p2
+custom_channel.patch -p2
+use_custom_branded_user_folder.patch -p2
+use_custom_branding_on_title.patch -p2
+custom_bug_tracker.patch -p2
+socksfixv5.patch -p0
+Additonal_Settings_hunk.patch -p0
+starsv2.patch -p0
+ybs.patch -p0
+#newer_webkit.patch -p2
+#SNOW-624_define_is_required.diff -p1
+#qstreamer_gxx.patch -p1
+

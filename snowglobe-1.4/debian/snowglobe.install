@@ -1,0 +1,7 @@
+indra/build/newview/snowglobe usr/games/
+debian/snowglobe_icon.xpm usr/share/pixmaps/
+debian/snowglobe.desktop usr/share/applications/
+indra/build/media_plugins/gstreamer010/libmedia_plugin_gstreamer010.so usr/lib/snowglobe-plugins/
+indra/build/media_plugins/webkit/libmedia_plugin_webkit.so usr/lib/snowglobe-plugins/
+indra/build/llplugin/slplugin/SLPlugin usr/games/
+

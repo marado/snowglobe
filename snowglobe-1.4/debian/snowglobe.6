@@ -1,0 +1,135 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH SLVIEWER 6 "April  8, 2007" "Second Life Viewer" "Second Life"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.\" Load the hyperlink hander
+.mso www.tmac
+.SH NAME
+slviewer \- graphical client for connecting to a Second Life server grid
+.SH SYNOPSIS
+.B slviewer
+.RI [ options ]
+.SH DESCRIPTION
+.B slviewer
+is a graphical client for connection to a Second Life server grid
+.PP
+.SH OPTIONS
+.TP 12m
+.B \-login
+.I "<first name>"
+.I "<last name>"
+.I "<password>"
+.br
+Log in as a user
+.TP
+.B \-loginuri
+.I <URI>
+Login server and CGI script to use
+.br
+.TP
+.B \-helperuri
+.I <URI>
+.br
+Helper web CGI prefix to use
+.TP
+.B \-settings
+.I <filename>
+.br
+A file containing configuration settings, defaults to settings.xml
+.TP
+.B \-setdefault
+.I <variable>
+.I <value>
+.br
+Supply a default value for a configuration variable, overridden by the file supplied to -settings
+.TP
+.B \-set
+.I <variable>
+.I <value>
+.br
+Supply a default value for a configuration variable, overrides the file supplied to -settings or parameter passed to -setdefault
+.TP
+.B \-user
+.I "<user server ip>"
+.br
+Userserver IP address or hostname
+.TP
+.B \-sim
+.I "<simulator ip>"
+.br
+Simulator IP address or hostname
+.TP
+.B \-local
+.br
+Run without a simulator
+.TP
+.B \-god
+.br
+Log in as god if you have god access
+.TP
+.B \-purge
+.br
+Delete files in cache
+.TP
+.B \-safe
+.br
+Reset preferences and run in safe mode
+.TP
+.B \-noutc
+.br
+Timestamp logs in local time rather than UTC
+.TP
+.B \-nothread
+.br
+Run VFS in a single thread
+.TP
+.B \-noinvlib
+.br
+Do not request inventory library
+.TP
+.B \-multiple
+.br
+Allow multiple viewers
+.TP
+.B \-nomultiple
+.br
+Block multiple viewers
+.TP
+.B \-ignorepixeldepth
+.br
+Ignore pixel depth settings
+.TP
+.B \-cooperative
+.I [ms]
+.br
+Yield some idle time to local host
+.TP
+.B \-skin
+.I "<skin folder>"
+.br
+The UI skin folder to use
+.SH EXAMPLES
+.IP "To connect to the Uma test grid:"
+.B "slviewer -loginuri https://login.uma.lindenlab.com/cgi-bin/login.cgi -user userserver.uma.lindenlab.com"
+.SH SEE ALSO
+.URL https://wiki.secondlife.com/wiki/Client_parameters "Known client commandline parameters"
+.br
+.URL http://www.secondlife.com/ "Second Life website"
+.SH AUTHOR
+slviewer was written by Linden Research, Inc.
+.PP
+This manual page was written by Paul Hampson <Paul.Hampson@Pobox.com>,
+for the Debian project (but may be used by others).

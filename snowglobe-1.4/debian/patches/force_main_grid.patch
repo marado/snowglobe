@@ -1,0 +1,13 @@
+diff --git a/trunk/indra/newview/app_settings/settings.xml b/trunk/indra/newview/app_settings/settings.xml
+index 1f7c6a5..d2368d0 100644
+--- a/trunk/indra/newview/app_settings/settings.xml
++++ b/trunk/indra/newview/app_settings/settings.xml
+@@ -8372,7 +8372,7 @@
+       <key>Type</key>
+       <string>S32</string>
+       <key>Value</key>
+-      <integer>0</integer>
++      <integer>2</integer>
+     </map>
+     <key>ShareWithGroup</key>
+     <map>

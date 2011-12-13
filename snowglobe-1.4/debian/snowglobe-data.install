@@ -1,0 +1,11 @@
+indra/newview/featuretable_linux.txt usr/share/snowglobe
+indra/newview/gpu_table.txt usr/share/snowglobe
+indra/newview/app_settings/ usr/share/snowglobe
+indra/newview/res/ usr/share/snowglobe
+indra/newview/res-sdl/ usr/share/snowglobe
+indra/newview/skins/ usr/share/snowglobe 
+indra/newview/character/ usr/share/snowglobe 
+scripts/messages/message_template.msg usr/share/snowglobe/app_settings
+etc/message.xml usr/share/snowglobe/app_settings
+indra/newview/linux_tools/launch_url.sh usr/share/snowglobe
+

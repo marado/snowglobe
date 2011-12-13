@@ -1,0 +1,39 @@
+Index: indra/newview/llstartup.cpp
+===================================================================
+--- indra/newview/llstartup.cpp	(revision 3318)
++++ indra/newview/llstartup.cpp	(working copy)
+@@ -1271,25 +1271,18 @@
+ 		// Post login screen, we should see if any settings have changed that may
+ 		// require us to either start/stop or change the socks proxy. As various communications
+ 		// past this point may require the proxy to be up.
+-		bool socks_enable_required = gSavedSettings.getBOOL("Socks5ProxyEnabled");
+-		if ((LLSocks::getInstance()->isEnabled() != socks_enable_required) || LLSocks::getInstance()->needsUpdate())
++
++		if (LLSocks::getInstance()->needsUpdate())
+ 		{
+-			if (socks_enable_required)
++			if (!LLStartUp::handleSocksProxy(false))
+ 			{
+-				if (!LLStartUp::handleSocksProxy(false))
+-				{
+-					// Proxy start up failed, we should now bail the state machine
+-					// HandleSocksProxy() will have reported an error to the user 
+-					// already, so we just go back to the login screen. The user
+-					// could then change the perferences to fix the issue. 
+-					LLStartUp::setStartupState(STATE_LOGIN_SHOW);
+-					return FALSE;
+-				}
++				// Proxy start up failed, we should now bail the state machine
++				// HandleSocksProxy() will have reported an error to the user 
++				// already, so we just go back to the login screen. The user
++				// could then change the perferences to fix the issue. 
++				LLStartUp::setStartupState(STATE_LOGIN_SHOW);
++				return FALSE;
+ 			}
+-			else
+-			{
+-				LLSocks::getInstance()->stopProxy();
+-			}
+ 		}
+ 
+ 		//reset the values that could have come in from a slurl

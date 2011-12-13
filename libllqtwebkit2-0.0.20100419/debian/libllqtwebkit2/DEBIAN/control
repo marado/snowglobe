@@ -1,0 +1,15 @@
+Package: libllqtwebkit2
+Version: 0.0.20100419-2.1
+Architecture: i386
+Maintainer: Robin Cornelius <robin.cornelius@gmail.com>
+Installed-Size: 228
+Depends: libc6 (>= 2.3.6-6~), libgcc1 (>= 1:4.1.1), libqt4-network (>= 4:4.5.3), libqt4-opengl (>= 4:4.5.3), libqtcore4 (>= 4:4.7.0~beta1), libqtgui4 (>= 4:4.6.1), libqtwebkit4 (>= 2.2~2011week36), libstdc++6 (>= 4.6)
+Conflicts: snowglobe (<= 1.3)
+Section: libs
+Priority: extra
+Homepage: http://www.ubrowser.com/llmozlib.php
+Description: An offscreen web page rendering library
+ A library that allows webpages to be rendered in a memory buffer for use in
+ applications that do not want to render directly to the screen, example usage
+ with OpenGL applications where the memory buffer can then be applied as a 3D
+ GL texture.

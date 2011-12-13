@@ -1,0 +1,2 @@
+/usr/bin/ar cr libllplugin.a  CMakeFiles/llplugin.dir/llpluginclassmedia.cpp.o CMakeFiles/llplugin.dir/llplugininstance.cpp.o CMakeFiles/llplugin.dir/llpluginmessage.cpp.o CMakeFiles/llplugin.dir/llpluginmessagepipe.cpp.o CMakeFiles/llplugin.dir/llpluginprocesschild.cpp.o CMakeFiles/llplugin.dir/llpluginprocessparent.cpp.o CMakeFiles/llplugin.dir/llpluginsharedmemory.cpp.o
+/usr/bin/ranlib libllplugin.a

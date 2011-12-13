@@ -1,0 +1,26 @@
+Format: 1.8
+Date: Mon, 12 Dec 2011 23:04:01 +0100
+Source: libllqtwebkit2
+Binary: libllqtwebkit2-dev libllqtwebkit2
+Architecture: i386
+Version: 0.0.20100419-2.1
+Distribution: unstable
+Urgency: low
+Maintainer: Robin Cornelius <robin.cornelius@gmail.com>
+Changed-By: Marcos Marado <mindboosternoori@gmail.com>
+Description: 
+ libllqtwebkit2 - An offscreen web page rendering library
+ libllqtwebkit2-dev - Development headers for llqtwebkit
+Changes: 
+ libllqtwebkit2 (0.0.20100419-2.1) unstable; urgency=low
+ .
+   * added missing dependency
+Checksums-Sha1: 
+ c5aa1bbd2a0cfad0c3e5f6d7ef084331c9b25a72 7054 libllqtwebkit2-dev_0.0.20100419-2.1_i386.deb
+ 0e70d03aea51f2198bd39f08f279d68a7f086818 76724 libllqtwebkit2_0.0.20100419-2.1_i386.deb
+Checksums-Sha256: 
+ 5be5e20abe0df0fbec3b287f1388b59c73202e97637537a5924d660ae7313b18 7054 libllqtwebkit2-dev_0.0.20100419-2.1_i386.deb
+ c0ed8e2bd6eabebec4a00f4b632c2a4d66a04e2289628b20f63dccc674f8156a 76724 libllqtwebkit2_0.0.20100419-2.1_i386.deb
+Files: 
+ 38c0127cd82a88127619dcab735b24b4 7054 libdevel extra libllqtwebkit2-dev_0.0.20100419-2.1_i386.deb
+ aa7115ded7da047762cdbf8724bf4b50 76724 libs extra libllqtwebkit2_0.0.20100419-2.1_i386.deb

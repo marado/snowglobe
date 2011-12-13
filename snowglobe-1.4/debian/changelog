@@ -1,0 +1,56 @@
+snowglobe (1.4-4.1) unstable; urgency=low
+
+  * added build dependency
+  * added -fpermissive so gcc 4.6 will compile this
+  * added -lrt to the linker flags
+
+ -- Marcos Marado <mindboosternoori@gmail.com>  Mon, 12 Dec 2011 22:55:51 +0100
+
+snowglobe (1.4-4) unstable; urgency=low
+
+  * We forgot to actualy copy the licence template in to the DEBIAN/ folder duing packaging
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Wed, 26 May 2010 12:18:45 +0100
+
+snowglobe (1.4-3) unstable; urgency=low
+
+  * Bump version for a new release on the repository
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Mon, 24 May 2010 19:53:20 +0100
+
+snowglobe (1.4-2) unstable; urgency=low
+
+  * Correctly add TVP licence templates
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Sun, 23 May 2010 22:35:49 +0100
+
+snowglobe (1.4-1) unstable; urgency=low
+
+  * Drop arch detection patch, applied upstream
+  * Add socks5 fixes SNOW-613
+  * Fix patch series for latest build
+  * SNOW-577 Real star maps
+  * Import new webkit code
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Fri, 16 Apr 2010 18:54:33 +0100
+
+snowglobe (1.3-2) unstable; urgency=low
+
+  * Update snowglobe from SVN, we are heading to 1.3 RC1
+  * Patch the arch detection so we can build correctly in chroots
+  * Change to ttf-liberation fonts
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Sat, 09 Jan 2010 10:18:59 +0000
+
+snowglobe (1.3-1) unstable; urgency=low
+
+  * Inital import of the snowglobe code
+  * Add use_sys_location_for_shared_plugin_files.patch
+    - Move plugins to a LSB location
+  * Import res-sdl files from SDL package to provide icons
+  * Create our own pixmap of the snowglobe icon
+  * Create a copy of mime_types_linux.xml as mime_types in app_settings to make
+    plugins work
+
+ -- Robin Cornelius <robin.cornelius@gmail.com>  Mon, 04 Jan 2010 13:12:31 +0000
+

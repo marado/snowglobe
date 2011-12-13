@@ -1,0 +1,13 @@
+Package: libllqtwebkit2-dev
+Source: libllqtwebkit2
+Version: 0.0.20100419-2.1
+Architecture: i386
+Maintainer: Robin Cornelius <robin.cornelius@gmail.com>
+Installed-Size: 56
+Depends: libllqtwebkit2 (= 0.0.20100419-2.1)
+Conflicts: libllqtwebkit-dev
+Section: libdevel
+Priority: extra
+Homepage: http://www.ubrowser.com/llmozlib.php
+Description: Development headers for llqtwebkit
+ Development headers for llqtwebkit an offscreen webpage rendering library

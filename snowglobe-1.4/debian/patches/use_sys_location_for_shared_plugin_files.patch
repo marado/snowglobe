@@ -1,0 +1,13 @@
+diff --git a/trunk/indra/llvfs/lldir_linux.cpp b/trunk/indra/llvfs/lldir_linux.cpp
+index ec0a4f4..b5e602b 100644
+--- a/trunk/indra/llvfs/lldir_linux.cpp
++++ b/trunk/indra/llvfs/lldir_linux.cpp
+@@ -124,7 +124,7 @@ LLDir_Linux::LLDir_Linux()
+ 		}
+ 	}
+ 
+-	mLLPluginDir = mExecutableDir + mDirDelimiter + "llplugin";
++	mLLPluginDir = "/usr/lib/snowglobe-plugins";
+ 
+ #ifdef APP_RO_DATA_DIR
+         const char* appRODataDir = APP_RO_DATA_DIR;

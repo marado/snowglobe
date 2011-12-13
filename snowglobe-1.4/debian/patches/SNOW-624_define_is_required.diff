@@ -1,0 +1,26 @@
+diff --git a/indra/newview/llcommandlineparser.cpp b/indra/newview/llcommandlineparser.cpp
+index 3b6131b..0eb44e2 100755
+--- a/indra/newview/llcommandlineparser.cpp
++++ b/indra/newview/llcommandlineparser.cpp
+@@ -60,7 +60,7 @@
+ 
+ namespace po = boost::program_options;
+ 
+-// *NTOE:MEP - Currently the boost object reside in file scope. 
++// *NOTE:MEP - Currently the boost object reside in file scope. 
+ // This has a couple of negatives, they are always around and 
+ // there can be only one instance of each. 
+ // The plus is that the boost-ly-ness of this implementation is 
+@@ -163,6 +163,12 @@ public:
+         return mIsComposing;
+     }
+ 
++    // Needed for boost 1.42
++    virtual bool is_required() const
++    {
++        return false; // All our command line options are optional.
++    }
++
+     virtual bool apply_default(boost::any& value_store) const
+     {
+         return false; // No defaults.

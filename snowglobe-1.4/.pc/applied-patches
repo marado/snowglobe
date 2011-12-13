@@ -1,0 +1,14 @@
+use_sys_location_for_shared_plugin_files.patch
+force_main_grid.patch
+debianfonts.patch
+universaljson.patch
+AnimationJointString.patch
+default_skin_about.patch
+custom_channel.patch
+use_custom_branded_user_folder.patch
+use_custom_branding_on_title.patch
+custom_bug_tracker.patch
+socksfixv5.patch
+Additonal_Settings_hunk.patch
+starsv2.patch
+ybs.patch

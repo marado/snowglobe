@@ -1,0 +1,2 @@
+/usr/bin/ar cr liblscript_compile.a  CMakeFiles/lscript_compile.dir/lscript_alloc.cpp.o CMakeFiles/lscript_compile.dir/lscript_bytecode.cpp.o CMakeFiles/lscript_compile.dir/lscript_error.cpp.o CMakeFiles/lscript_compile.dir/lscript_heap.cpp.o CMakeFiles/lscript_compile.dir/lscript_resource.cpp.o CMakeFiles/lscript_compile.dir/lscript_scope.cpp.o CMakeFiles/lscript_compile.dir/lscript_tree.cpp.o CMakeFiles/lscript_compile.dir/lscript_typecheck.cpp.o CMakeFiles/lscript_compile.dir/indra.l.cpp.o CMakeFiles/lscript_compile.dir/indra.y.cpp.o
+/usr/bin/ranlib liblscript_compile.a

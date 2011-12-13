@@ -1,0 +1,2 @@
+/usr/bin/ar cr libllprimitive.a  CMakeFiles/llprimitive.dir/llmaterialtable.cpp.o CMakeFiles/llprimitive.dir/llprimitive.cpp.o CMakeFiles/llprimitive.dir/lltextureanim.cpp.o CMakeFiles/llprimitive.dir/lltextureentry.cpp.o CMakeFiles/llprimitive.dir/lltreeparams.cpp.o CMakeFiles/llprimitive.dir/llvolumemessage.cpp.o CMakeFiles/llprimitive.dir/llvolumexml.cpp.o
+/usr/bin/ranlib libllprimitive.a

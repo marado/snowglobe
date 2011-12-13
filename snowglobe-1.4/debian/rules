@@ -1,0 +1,142 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+include /usr/share/quilt/quilt.make
+
+# Always use verbose incase we have an autobuild fail and need to check a log
+export VERBOSE=1
+
+# This has to be exported to make some magic below work.
+export DH_OPTIONS
+
+# Process DEB_BUILD_OPTIONS.
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+  	# Strip existing -O* parameters. 
+	CXXFLAGS := $(CXXFLAGS:-O%=)
+else ifeq (,$(filter -O%,$(CXXFLAGS)))
+	# Add -O2 if no -O* already exists.
+	CXXFLAGS += -O2
+endif
+ifneq (,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	NUMJOBS = $(patsubst parallel=%,%,$(filter parallel=%,$(DEB_BUILD_OPTIONS)))
+	MAKEFLAGS += -j$(NUMJOBS)
+endif
+# dh_strip will remove the symbols for 'release' and create a -dbg package.
+ifeq (,$(filter -g%,$(CXXFLAGS)))
+	# Therefore we always want to use -g.
+	DBGFLAGS = -g
+else
+	# However, if CXXFLAGS already contains a -g* option, use that.
+	DBGFLAGS := $(filter -g%,$(CXXFLAGS))
+	CXXFLAGS := $(CXXFLAGS:-g%=)
+endif
+
+DEB_BUILD_ARCH=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+SLVIEWER_ARCH=$(subst amd64,x86_64,$(subst i386,i686,$(DEB_BUILD_ARCH)))
+
+CMAKE_CURRENT_BINARY_DIR := $(BUILD_DIR:$(shell pwd)/build)
+
+#Architecture 
+build: build-arch build-indep
+
+configure: patch
+	dh_testdir
+	DEB_BUILD_OPTIONS="$(DEB_BUILD_OPTIONS)"; \
+	CXXFLAGS="$(CXXFLAGS)"; \
+	DBGFLAGS="$(DBGFLAGS)"; \
+	CONFFILE_CMAKE_ARGUMENTS=""; \
+	for conffile in $$(ls debian/conffiles); do . debian/conffiles/$$conffile; done && \
+	echo "CXXFLAGS is \"$$CXXFLAGS\"" && \
+	echo "DBGFLAGS is \"$$DBGFLAGS\"" && \
+	echo "CONFFILE_CMAKE_ARGUMENTS is \"$$CONFFILE_CMAKE_ARGUMENTS\"" && \
+	mkdir -p indra/build && \
+	cd indra/build && \
+	cmake -DUNATTENDED:BOOl=FALSE -DSTANDALONE:BOOL=TRUE \
+	-DCMAKE_BUILD_TYPE:STRING=RELWITHDEBINFO -DSERVER:BOOL=FALSE \
+	-DCMAKE_CURRENT_BINARY_DIR:STRING=$(CMAKE_CURRENT_BINARY_DIR) \
+	-DVIEWER:BOOL=TRUE -DMOZLIB:BOOL=true -DINSTALL:BOOL=TRUE \
+	-DAPP_SHARE_DIR:STRING=/usr/share/snowglobe/ \
+	-DAPP_BINARY_DIR:STRING=/usr/games/ \
+	-DCMAKE_INSTALL_PREFIX:STRING=debian/ \
+	-DVIEWER_BINARY_NAME:STRING=snowglobe \
+	-DOPENAL:BOOL=TRUE \
+	-DPACKAGE:BOOL=FALSE \
+	-DCMAKE_CXX_FLAGS:STRING="$$CXXFLAGS" \
+	-DCMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING="$$DBGFLAGS" \
+	$$CONFFILE_CMAKE_ARGUMENTS \
+	..
+
+build-arch: build-arch-stamp
+build-arch-stamp: configure
+	cd indra/build && $(MAKE)
+	touch $@
+
+build-indep: build-indep-stamp
+build-indep-stamp: patch
+	touch $@
+
+clean: realclean unpatch
+realclean:
+	dh_testdir
+	dh_testroot
+	rm -f build-arch-stamp build-indep-stamp
+	- rm -f -r indra/build	
+	dh_clean indra/lib/python/indra/*.pyc indra/lib/python/indra/ipc/*.pyc
+
+install: install-indep install-arch
+install-indep:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -i 
+	dh_installdirs -i
+	dh_install -i
+	cp indra/newview/skins/default/xui/en-us/mime_types_linux.xml debian/snowglobe-data/usr/share/snowglobe/skins/default/xui/en-us/mime_types.xml	
+
+install-arch:
+	dh_testdir
+	dh_testroot
+	dh_clean -k -s 
+	dh_installdirs -s
+	dh_install -s
+	dh_gconf
+	ln /usr/lib/snowglobe-plugins/libmedia_plugin_gstreamer010.so debian/snowglobe/usr/lib/snowglobe-plugins/libmedia_plugin_gstreamer.so -s
+
+# Build architecture independant packages
+binary-indep: build-indep install-indep
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs  -i
+	dh_installdocs -i
+	dh_compress  -i
+	dh_fixperms -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+# Build architecture dependant packages
+binary-arch: build-arch install-arch
+	dh_testdir -s
+	dh_testroot -s
+	dh_installchangelogs  -s
+	dh_installdocs -s
+	dh_installmenu -s
+	dh_installman -s
+	dh_desktop
+	dh_strip -s --dbg-package=snowglobe-dbg
+	dh_compress  -s
+	dh_fixperms -s
+	dh_installdeb -s
+	dh_shlibdeps -s
+	dh_gencontrol -s
+	cp debian/snowglobe.preinst.templates debian/snowglobe/DEBIAN/templates
+	dh_md5sums -s
+	dh_builddeb -s
+
+binary: binary-arch binary-indep
+
+# indra/newview/res/resource.h is a Visual C++-generated file of tokens used in indra/newview/res/newViewRes.rc
+headeraudit: indra
+	@find indra \( -name *.cpp -or -name *.h -and -not -wholename indra/newview/res/resource.h -or -name *.inl -or -name *.mm \) -exec debian/headeraudit.pl {} +
+
+.PHONY: build clean binary-indep binary-arch binary install install-indep install-arch patch unatch realclean headeraudit

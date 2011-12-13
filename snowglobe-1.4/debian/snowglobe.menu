@@ -1,0 +1,3 @@
+?package(snowglobe):needs="x11" section="Games/Simulation"\
+  title="Snowglobe" command="/usr/games/snowglobe" \
+  icon="/usr/share/pixmaps/snowglobe_icon.xpm"

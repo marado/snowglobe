@@ -1,0 +1,41 @@
+
+------ Fonts ------
+
+As the fonts used in the upstream viewer cannot be distributed with
+Debian, the default fonts have been changed as follows:
+FontMonospace:			/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono.ttf
+FontSansSerif:			/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf
+FontSansSerifFallback:		/usr/share/fonts/truetype/kochi/kochi-mincho.ttf
+FontSansSerifBold:		/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans-Bold.ttf
+
+These can be overridden in your settings.xml (see ~/.secondlife) as per usual.
+Multiple fallback fonts (i.e. for when FontSansSerif doesn't have the requested
+character set) can be listed, separated by ;.
+
+At the moment, fonts must be listed by full pathname.
+
+Suggestions for other default fallback fonts, or just a better font selection,
+are very welcome in the Debian Bugtracking System.
+
+------ External www-browser ------
+
+The default behaviour of Secondlife is to call launch.sh to run an external web
+browser. The behaviour is modified in the Debian package so that the viewer will
+first look for the environmental variable BROSWER and run that if found. If not
+found it will directly call the symbolic link /etc/alternatives/x-www-browser. 
+This is the Debian system default browser.
+
+------ Read only data ------
+
+The default behaviour for Secondlife is to exist in a self contained tree with
+all binaries/artwork and data to exist with in a structure of this tree. This
+Debian package is modified so that the read-only (non arch specific) data is 
+moved to a FSH compliant location of /usr/share/secondlife. The main executable
+is placed in /usr/bin/ and named slviewer. User data is stored under the users 
+home directory ~/.secondlife/
+
+
+
+
+
+
