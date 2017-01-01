@@ -1,24 +1,5 @@
-This is a fork of http://omvviewer.byteme.org.uk , and I only intend to
-maintain it as long as Robin doesn't release anything else there (last release
-was 17 months ago).
+This was an attempt to have snowglobe packages for Debian wheezy, or for the
+latest Ubuntu releases.
 
-I started doing this because he has no packages for Debian wheezy, nor for the 
-latest Ubuntu releases. Linking to newer libraries is not enough, so here's 
-my attempt to do so...
-
-Note that:
-1) I'm only focusing on snowglobe and not on snowglobe2. No particular reason, 
-   I simply had to start somewhere;
-2) As this is right now, it is intented for you to download the whole thingie
-   and `dpkg-buildpackage -rfakeroot -b` it for yourself;
-3) You'll need to have Robin's repos anyway;
-4) You'll have to start building the dependencies first, then install it, 
-   and only then you build snowglobe
-
-If I dedicate time for this, this will probably end up being the place where 
-you find the code for some deb's that you'll find RFP'd on Debian and present
-in an Ubuntu PPA. No such luck for now.
-
-If you want to help me, or grab the task yourself, that would be very much 
-appreciated. If not, don't expect to have anything useable any time soon (or
-at all).
+This project is now dead, as snowglobe was replaced by snowstorm, to which you
+can find deb packages at http://www.playdeb.net/app/Snowstorm .
